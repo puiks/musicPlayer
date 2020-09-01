@@ -1,0 +1,149 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "281470",
+      "name": "collect",
+      "font_class": "collect",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "970725",
+      "name": "search",
+      "font_class": "search",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "1393638",
+      "name": "download",
+      "font_class": "download",
+      "unicode": "e6e9",
+      "unicode_decimal": 59113
+    },
+    {
+      "icon_id": "1420819",
+      "name": "next",
+      "font_class": "next",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "1508318",
+      "name": "prev",
+      "font_class": "prev",
+      "unicode": "e65f",
+      "unicode_decimal": 58975
+    },
+    {
+      "icon_id": "1817767",
+      "name": "live",
+      "font_class": "live",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "6345968",
+      "name": "friend",
+      "font_class": "friend",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "7275084",
+      "name": "Add (with circle) (F",
+      "font_class": "AddwithcircleF",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "7852106",
+      "name": "volume",
+      "font_class": "volume",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "9566554",
+      "name": "play-list-line",
+      "font_class": "play-list-line",
+      "unicode": "e890",
+      "unicode_decimal": 59536
+    },
+    {
+      "icon_id": "10918143",
+      "name": "netease-cloud-music-fill",
+      "font_class": "netease-cloud-music-fill",
+      "unicode": "e76a",
+      "unicode_decimal": 59242
+    },
+    {
+      "icon_id": "11348977",
+      "name": "down",
+      "font_class": "down",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "11399135",
+      "name": "music",
+      "font_class": "music",
+      "unicode": "e59e",
+      "unicode_decimal": 58782
+    },
+    {
+      "icon_id": "11982636",
+      "name": "Video, record, camera",
+      "font_class": "Videorecordcamera",
+      "unicode": "e9cb",
+      "unicode_decimal": 59851
+    },
+    {
+      "icon_id": "13896053",
+      "name": "radio",
+      "font_class": "radio",
+      "unicode": "e791",
+      "unicode_decimal": 59281
+    },
+    {
+      "icon_id": "14464863",
+      "name": "player-pause",
+      "font_class": "player-pause",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "14464865",
+      "name": "player-play",
+      "font_class": "player-play",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "14464868",
+      "name": "player-skip-back",
+      "font_class": "player-skip-back",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "14464869",
+      "name": "player-skip-forward",
+      "font_class": "player-skip-forward",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "14507464",
+      "name": "Cloud download",
+      "font_class": "Clouddownload",
+      "unicode": "e6d1",
+      "unicode_decimal": 59089
+    }
+  ]
+}
