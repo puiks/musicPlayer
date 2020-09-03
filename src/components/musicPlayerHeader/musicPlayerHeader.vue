@@ -9,12 +9,41 @@
       <p class="logo_desc">music player</p>
     </div>
     <div class="search_area">
-      <input type="text" class="search_input" />
+      <input
+        v-model="inputValue"
+        @input="checkInput"
+        @focus="showTheHotSearch"
+        type="text"
+        class="search_input"
+      />
       <i class="search_btn">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-search" />
         </svg>
       </i>
+      <div ref="searchRef" class="search_frame">
+        <div class="search_history">
+          <h4>搜索历史</h4>
+          <div class="history_content">
+            <div class="history_item"></div>
+          </div>
+        </div>
+        <div class="hotRank">
+          <h4>热搜榜</h4>
+          <div class="rank_content">
+            <div :key="index" v-for="(item2,index) in hotSearchList" class="rank_item">
+              <div class="itemIndex">{{index + 1}}</div>
+              <div class="item_desc">
+                <div class="item_title">
+                  <span>{{item2.searchWord}}</span>
+                  <span class="score">{{item2.score}}</span>
+                </div>
+                <div class="item_detail">{{item2.content}}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="login_area">
       <a class="login_btn" href="javascript:;">未登陆</a>
@@ -24,9 +53,31 @@
 
 <script>
 export default {
+  data:function() {
+    return {
+      hotSearchList:[],
+      inputValue:'',
+      suggestList:[]
+    }
+  },
   methods:{
     goHomePage() {
       this.$router.push('/discoveryMusic/recommend')
+    },
+    async showTheHotSearch() {
+      this.$refs.searchRef.style.display = 'block'
+      const res = await this.$http.get('/search/hot/detail')
+      this.hotSearchList = res.data.data
+      console.log(this.hotSearchList)
+    },
+     checkInput() {
+      // e.target.value
+      clearTimeout(this.timer)
+      this.timer = setTimeout(async () => {
+        const res = await this.$http.get('/search/suggest?keywords=' + this.inputValue)
+        this.suggestList = res.data.result
+        console.log(this.suggestList)
+      }, 1000)
     }
   }
 }
@@ -86,6 +137,97 @@ c = #fff;
 
       & :hover {
         color: #fff;
+      }
+    }
+
+    .search_frame {
+      position: absolute;
+      display: none;
+      width: 35rem;
+      height: 25rem;
+      top: 45px;
+      padding-top: 20px;
+      background-color: #fff;
+      box-shadow: 0 5px 4px 3px #ccc;
+      overflow: auto;
+      z-index: 9999;
+
+      .search_history {
+        padding-left: 25px;
+        margin-bottom: 30px;
+
+        h4 {
+          font-size: 18px;
+          color: #222;
+          font-weight: 500;
+          margin-bottom: 15px;
+        }
+
+        .history_content {
+          display: flex;
+          flex-wrap: wrap;
+
+          .history_item {
+            padding: 8px 15px;
+            margin: 0 15px 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:hover {
+              background-color: #eee;
+            }
+          }
+        }
+      }
+
+      .hotRank {
+        h4 {
+          padding-left: 25px;
+          font-size: 18px;
+          color: #222;
+          font-weight: 500;
+          margin-bottom: 15px;
+        }
+
+        .rank_content {
+          .rank_item {
+            display: flex;
+            align-items: center;
+            padding: 20px 0 20px 25px;
+            cursor: pointer;
+
+            &:hover {
+              background-color: #eee;
+            }
+
+            .itemIndex {
+              flex: 1;
+              font-size: 26px;
+              color: #FF3A3A;
+            }
+
+            .item_desc {
+              flex: 7;
+
+              .item_title {
+                .score {
+                  margin-left: 10px;
+                  font-size: 12px;
+                  color: #ccc;
+                }
+              }
+
+              .item_detail {
+                color: #999;
+              }
+            }
+
+            &:nth-child(n+3) .itemIndex {
+              color: #999;
+            }
+          }
+        }
       }
     }
   }
