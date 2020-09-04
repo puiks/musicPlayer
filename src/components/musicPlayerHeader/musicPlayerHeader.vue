@@ -10,9 +10,11 @@
     </div>
     <div class="search_area">
       <input
+        @keypress.enter="submitSearch"
         v-model="inputValue"
         @input="checkInput"
         @focus="showTheHotSearch"
+        @blur="hideTheHotSearch"
         type="text"
         class="search_input"
       />
@@ -22,25 +24,33 @@
         </svg>
       </i>
       <div ref="searchRef" class="search_frame">
-        <div class="search_history">
-          <h4>搜索历史</h4>
-          <div class="history_content">
-            <div class="history_item"></div>
+        <div v-if="!suggestList" class="search_part">
+          <div class="search_history">
+            <h4>搜索历史</h4>
+            <div class="history_content">
+              <div class="history_item"></div>
+            </div>
           </div>
-        </div>
-        <div class="hotRank">
-          <h4>热搜榜</h4>
-          <div class="rank_content">
-            <div :key="index" v-for="(item2,index) in hotSearchList" class="rank_item">
-              <div class="itemIndex">{{index + 1}}</div>
-              <div class="item_desc">
-                <div class="item_title">
-                  <span>{{item2.searchWord}}</span>
-                  <span class="score">{{item2.score}}</span>
+          <div class="hotRank">
+            <h4>热搜榜</h4>
+            <div class="rank_content">
+              <div :key="index" v-for="(item2,index) in hotSearchList" class="rank_item">
+                <div class="itemIndex">{{index + 1}}</div>
+                <div class="item_desc">
+                  <div class="item_title">
+                    <span>{{item2.searchWord}}</span>
+                    <span class="score">{{item2.score}}</span>
+                  </div>
+                  <div class="item_detail">{{item2.content}}</div>
                 </div>
-                <div class="item_detail">{{item2.content}}</div>
               </div>
             </div>
+          </div>
+        </div>
+        <div v-else class="search_suggest">
+          <div class="suggest_item" :key="index" v-for="(item,index) in suggestList.order">
+            <h4>{{item}}</h4>
+            <div :key="item1.id" v-for="item1 in suggestList[item]" class="sub_item">{{item1.name}}</div>
           </div>
         </div>
       </div>
@@ -53,33 +63,48 @@
 
 <script>
 export default {
-  data:function() {
-    return {
+    data:function() {
+      return {
       hotSearchList:[],
       inputValue:'',
-      suggestList:[]
-    }
-  },
-  methods:{
-    goHomePage() {
-      this.$router.push('/discoveryMusic/recommend')
+      suggestList:null
+      }
     },
-    async showTheHotSearch() {
-      this.$refs.searchRef.style.display = 'block'
-      const res = await this.$http.get('/search/hot/detail')
-      this.hotSearchList = res.data.data
-      console.log(this.hotSearchList)
+    watch:{
+       inputValue:function(val) {
+          if (!val) {
+           this.suggestList = null
+          }
+       }
     },
-     checkInput() {
-      // e.target.value
-      clearTimeout(this.timer)
-      this.timer = setTimeout(async () => {
-        const res = await this.$http.get('/search/suggest?keywords=' + this.inputValue)
-        this.suggestList = res.data.result
-        console.log(this.suggestList)
-      }, 1000)
+    methods:{
+      goHomePage() {
+        this.$router.push('/discoveryMusic/recommend')
+      },
+      async showTheHotSearch() {
+        this.$refs.searchRef.style.display = 'block'
+        const res = await this.$http.get('/search/hot/detail')
+        this.hotSearchList = res.data.data
+        console.log(this.hotSearchList)
+      },
+       checkInput() {
+        if (!this.inputValue) {
+          return
+        }
+        clearTimeout(this.timer)
+        this.timer = setTimeout(async () => {
+          const res = await this.$http.get('/search/suggest?keywords=' + this.inputValue)
+          this.suggestList = res.data.result
+          console.log(this.suggestList)
+        }, 500)
+      },
+      hideTheHotSearch() {
+        this.$refs.searchRef.style.display = 'none'
+      },
+      async submitSearch() {
+        this.$router.push('/searchResult/' + this.inputValue)
+      }
     }
-  }
 }
 </script>
 
@@ -151,80 +176,103 @@ c = #fff;
       box-shadow: 0 5px 4px 3px #ccc;
       overflow: auto;
       z-index: 9999;
+      transition: all 0.5s ease;
 
-      .search_history {
-        padding-left: 25px;
-        margin-bottom: 30px;
+      .search_part {
+        .search_history {
+          padding-left: 25px;
+          margin-bottom: 30px;
 
-        h4 {
-          font-size: 18px;
-          color: #222;
-          font-weight: 500;
-          margin-bottom: 15px;
+          h4 {
+            font-size: 18px;
+            color: #222;
+            font-weight: 500;
+            margin-bottom: 15px;
+          }
+
+          .history_content {
+            display: flex;
+            flex-wrap: wrap;
+
+            .history_item {
+              padding: 8px 15px;
+              margin: 0 15px 10px 0;
+              border: 1px solid #ccc;
+              border-radius: 5px;
+              cursor: pointer;
+
+              &:hover {
+                background-color: #eee;
+              }
+            }
+          }
         }
 
-        .history_content {
-          display: flex;
-          flex-wrap: wrap;
+        .hotRank {
+          h4 {
+            padding-left: 25px;
+            font-size: 18px;
+            color: #222;
+            font-weight: 500;
+            margin-bottom: 15px;
+          }
 
-          .history_item {
-            padding: 8px 15px;
-            margin: 0 15px 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            cursor: pointer;
+          .rank_content {
+            .rank_item {
+              display: flex;
+              align-items: center;
+              padding: 20px 0 20px 25px;
+              cursor: pointer;
 
-            &:hover {
-              background-color: #eee;
+              &:hover {
+                background-color: #eee;
+              }
+
+              .itemIndex {
+                flex: 1;
+                font-size: 26px;
+                color: #FF3A3A;
+              }
+
+              .item_desc {
+                flex: 7;
+
+                .item_title {
+                  .score {
+                    margin-left: 10px;
+                    font-size: 12px;
+                    color: #ccc;
+                  }
+                }
+
+                .item_detail {
+                  color: #999;
+                }
+              }
+
+              &:nth-child(n+4) .itemIndex {
+                color: #999;
+              }
             }
           }
         }
       }
 
-      .hotRank {
-        h4 {
-          padding-left: 25px;
-          font-size: 18px;
-          color: #222;
-          font-weight: 500;
-          margin-bottom: 15px;
-        }
+      .search_suggest {
+        .suggest_item {
+          h4 {
+            font-size: 18px;
+            padding: 10px 0 10px 30px;
+            background-color: #F5F5F7;
+          }
 
-        .rank_content {
-          .rank_item {
-            display: flex;
-            align-items: center;
-            padding: 20px 0 20px 25px;
+          .sub_item {
+            font-size: 18px;
+            padding: 10px 0 10px 30px;
             cursor: pointer;
 
             &:hover {
               background-color: #eee;
-            }
-
-            .itemIndex {
-              flex: 1;
-              font-size: 26px;
-              color: #FF3A3A;
-            }
-
-            .item_desc {
-              flex: 7;
-
-              .item_title {
-                .score {
-                  margin-left: 10px;
-                  font-size: 12px;
-                  color: #ccc;
-                }
-              }
-
-              .item_detail {
-                color: #999;
-              }
-            }
-
-            &:nth-child(n+3) .itemIndex {
-              color: #999;
             }
           }
         }

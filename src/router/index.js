@@ -9,6 +9,9 @@ import SongListDetail from '../components/musicPlayerMain/musicPlayerContent/son
 // 歌手详情页
 import SingerDetail from '../components/musicPlayerMain/musicPlayerContent/singerDetail/singerDetail'
 
+// 搜索结果页
+import SearchResult from '../components/musicPlayerMain/musicPlayerContent/searchResult/searchResult'
+
 // 发现页下的三大模块
 import Recommend from '../components/musicPlayerMain/musicPlayerContent/discoveryMusic/recommend/recommend'
 import SongList from '../components/musicPlayerMain/musicPlayerContent/discoveryMusic/songList/songList'
@@ -38,6 +41,10 @@ const routes = [
       imgUrl: route.query.imgUrl,
       albumSize: route.query.albumSize
     })
+  },
+  {
+    path: '/searchResult/:keyword',
+    component: SearchResult
   }
 ]
 
