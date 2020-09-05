@@ -85,7 +85,6 @@ export default {
         this.$refs.searchRef.style.display = 'block'
         const res = await this.$http.get('/search/hot/detail')
         this.hotSearchList = res.data.data
-        console.log(this.hotSearchList)
       },
        checkInput() {
         if (!this.inputValue) {
@@ -95,7 +94,6 @@ export default {
         this.timer = setTimeout(async () => {
           const res = await this.$http.get('/search/suggest?keywords=' + this.inputValue)
           this.suggestList = res.data.result
-          console.log(this.suggestList)
         }, 500)
       },
       hideTheHotSearch() {

@@ -1,25 +1,52 @@
 <template>
-  <div>this is search result</div>
+  <div class="resultPage">
+    <content-top :nav="navList" />
+    <router-view />
+  </div>
 </template>
 
 <script>
+import contentTop from '../common/contentTop'
 export default {
     data:function() {
         return {
             keyword:'',
-            searchResult:{}
+            currentTarget:'song',
+            navList:[]
         }
     },
     created() {
-        this.keyword = this.$route.params.keyword
-        this.submitSearch()
+        this.initKeyword()
     },
     methods:{
-       async submitSearch() {
-           const res = await this.$http.get('/search?keywords=' + this.keyword)
-           this.searchResult = res.data.result
-           console.log(this.searchResult)
+        initKeyword() {
+            this.keyword = this.$route.params.keyword
+            this.navList.push({
+                navName:'单曲',
+                navAddress:`/searchResult/${this.keyword}/song`
+                },
+                {
+                navName:'歌手',
+                navAddress:`/searchResult/${this.keyword}/singer`
+                },
+                {
+                navName:'专辑',
+                navAddress:`/searchResult/${this.keyword}/album`
+                },
+                {
+                navName:'歌单',
+                navAddress:`/searchResult/${this.keyword}/songList`
+                })
+        },
+        handleSwitchTarget(target) {
+            if (this.currentTarget === target) {
+                return
+            }
+            this.$router.push(`/searchResult/${this.keyword}/${target}`)
         }
+    },
+    components:{
+        contentTop
     }
 }
 </script>

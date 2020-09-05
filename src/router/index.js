@@ -11,6 +11,10 @@ import SingerDetail from '../components/musicPlayerMain/musicPlayerContent/singe
 
 // 搜索结果页
 import SearchResult from '../components/musicPlayerMain/musicPlayerContent/searchResult/searchResult'
+import SearchSinger from '../components/musicPlayerMain/musicPlayerContent/searchResult/searchSinger/searchSinger'
+import SearchSong from '../components/musicPlayerMain/musicPlayerContent/searchResult/searchSong/searchSong'
+import SearchAlbum from '../components/musicPlayerMain/musicPlayerContent/searchResult/searchAlbum/searchAlbum'
+import SearchSongList from '../components/musicPlayerMain/musicPlayerContent/searchResult/searchSongList/searchSongList'
 
 // 发现页下的三大模块
 import Recommend from '../components/musicPlayerMain/musicPlayerContent/discoveryMusic/recommend/recommend'
@@ -44,7 +48,14 @@ const routes = [
   },
   {
     path: '/searchResult/:keyword',
-    component: SearchResult
+    component: SearchResult,
+    redirect: '/searchResult/:keyword/song',
+    children: [
+      { path: '/searchResult/:keyword/song', component: SearchSong },
+      { path: '/searchResult/:keyword/singer', component: SearchSinger },
+      { path: '/searchResult/:keyword/album', component: SearchAlbum },
+      { path: '/searchResult/:keyword/songList', component: SearchSongList }
+    ]
   }
 ]
 
