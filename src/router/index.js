@@ -9,6 +9,9 @@ import SongListDetail from '../components/musicPlayerMain/musicPlayerContent/son
 // 歌手详情页
 import SingerDetail from '../components/musicPlayerMain/musicPlayerContent/singerDetail/singerDetail'
 
+// 专辑详情页
+import AlbumDetail from '../components/musicPlayerMain/musicPlayerContent/albumDetail/albumDetail'
+
 // 搜索结果页
 import SearchResult from '../components/musicPlayerMain/musicPlayerContent/searchResult/searchResult'
 import SearchSinger from '../components/musicPlayerMain/musicPlayerContent/searchResult/searchSinger/searchSinger'
@@ -46,6 +49,7 @@ const routes = [
       albumSize: route.query.albumSize
     })
   },
+  { path: '/albumDetail/:id', component: AlbumDetail },
   {
     path: '/searchResult/:keyword',
     component: SearchResult,

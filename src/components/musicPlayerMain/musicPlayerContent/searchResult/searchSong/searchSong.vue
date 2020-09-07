@@ -75,8 +75,6 @@ export default {
       const res = await this.$http.get(`/search?keywords=${this.keyword}&limit=100&offset=${this.currentPage * 30}&type = 1`)
       this.songResult = res.data.result
       this.pageSize = (res.data.result.songCount / 100) > 5 ? 5 : res.data.result.songCount / 100
-      console.log(this.pageSize)
-      console.log(this.songResult)
     },
      isCurrent(i) {
       if (i === this.currentPage) {

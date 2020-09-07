@@ -19,10 +19,6 @@
           v-for="item in varietyType"
         >{{item.name}}</span>
       </div>
-      <!-- <div class="filter">
-        筛选:
-        <span class="variety_item" :key="item.id" v-for="item in varietyType">{{item.name}}</span>
-      </div>-->
     </div>
     <div class="singer_area">
       <div

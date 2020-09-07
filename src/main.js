@@ -10,7 +10,7 @@ import './assets/css/font.css'
 Vue.use(LazyLoad, {
   preLoad: 1.3,
   error: 'dist/error.png',
-  loading: 'dist/loading.png',
+  loading: 'dist/loading.gif',
   attempt: 1
 })
 Vue.config.productionTip = false
