@@ -9,8 +9,8 @@ import './assets/font/font_sznvk8nfzj/iconfont'
 import './assets/css/font.css'
 Vue.use(LazyLoad, {
   preLoad: 1.3,
-  error: 'dist/error.png',
-  loading: 'dist/loading.gif',
+  error: require('./assets/img/default.jpg'),
+  loading: require('./assets/img/loading3.png'),
   attempt: 1
 })
 Vue.config.productionTip = false

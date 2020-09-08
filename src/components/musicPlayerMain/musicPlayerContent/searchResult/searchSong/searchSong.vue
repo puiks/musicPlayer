@@ -11,7 +11,7 @@
       </div>
       <div
         @dblclick="playMusic(item,index)"
-        :key="item.id"
+        :key="index"
         v-for="(item,index) in songResult.songs"
         class="song_item"
       >
@@ -25,7 +25,7 @@
         </div>
         <div class="song_title">{{item.name}}</div>
         <div class="singer">
-          <span :key="item2.id" v-for="item2 in item.artists">{{item2.name}}</span>
+          <span :key="item2.id + index" v-for="(item2,index) in item.artists">{{item2.name}}</span>
         </div>
         <div class="album">{{item.album.name}}</div>
         <div class="time">{{item.duration | getTime}}</div>
@@ -38,11 +38,11 @@
         </svg>
       </i>
       <div
-        @click="submitSearch(item - 1)"
-        :class="isCurrent(item - 1)"
-        :key="item"
-        v-for="item of pageSize"
-      >{{item}}</div>
+        @click="submitSearch(item3 - 1)"
+        :class="isCurrent(item3 - 1)"
+        :key="item3"
+        v-for="item3 of pageSize"
+      >{{item3}}</div>
       <i v-if="currentPage < 4" @click="submitSearch(currentPage+1)">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-next" />
@@ -74,7 +74,7 @@ export default {
       this.currentPage = index
       const res = await this.$http.get(`/search?keywords=${this.keyword}&limit=100&offset=${this.currentPage * 30}&type = 1`)
       this.songResult = res.data.result
-      this.pageSize = (res.data.result.songCount / 100) > 5 ? 5 : res.data.result.songCount / 100
+      this.pageSize = (res.data.result.songCount / 100) > 5 ? 5 : Math.ceil(res.data.result.songCount / 100)
     },
      isCurrent(i) {
       if (i === this.currentPage) {
@@ -215,6 +215,11 @@ export default {
       -webkit-box-orient: vertical;
       overflow: hidden;
       flex: 3;
+
+      span:nth-child(n+2)::before {
+        content: '/';
+        margin: 0 7px;
+      }
     }
 
     .album {

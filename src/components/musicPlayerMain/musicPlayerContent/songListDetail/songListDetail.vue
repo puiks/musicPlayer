@@ -344,6 +344,11 @@ export default {
           -webkit-box-orient: vertical;
           overflow: hidden;
           flex: 3;
+
+          span:nth-child(n+2)::before {
+            content: '/';
+            margin: 0 7px;
+          }
         }
 
         .album {

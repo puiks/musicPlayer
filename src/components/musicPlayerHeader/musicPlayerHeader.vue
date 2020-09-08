@@ -10,15 +10,14 @@
     </div>
     <div class="search_area">
       <input
-        @keypress.enter="submitSearch"
+        @keypress.enter="submitSearch()"
         v-model="inputValue"
         @input="checkInput"
         @focus="showTheHotSearch"
-        @blur="hideTheHotSearch"
         type="text"
         class="search_input"
       />
-      <i class="search_btn">
+      <i @click="submitSearch" class="search_btn">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-search" />
         </svg>
@@ -31,10 +30,15 @@
               <div class="history_item"></div>
             </div>
           </div>
-          <div class="hotRank">
+          <!-- <div class="hotRank">
             <h4>热搜榜</h4>
             <div class="rank_content">
-              <div :key="index" v-for="(item2,index) in hotSearchList" class="rank_item">
+              <div
+                @click="submitSearch(item2.searchWord)"
+                :key="index"
+                v-for="(item2,index) in hotSearchList"
+                class="rank_item"
+              >
                 <div class="itemIndex">{{index + 1}}</div>
                 <div class="item_desc">
                   <div class="item_title">
@@ -45,12 +49,17 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div>-->
         </div>
         <div v-else class="search_suggest">
           <div class="suggest_item" :key="index" v-for="(item,index) in suggestList.order">
             <h4>{{item}}</h4>
-            <div :key="item1.id" v-for="item1 in suggestList[item]" class="sub_item">{{item1.name}}</div>
+            <div
+              @click="submitSearch(item1.name)"
+              :key="item1.id"
+              v-for="item1 in suggestList[item]"
+              class="sub_item"
+            >{{item1.name}}</div>
           </div>
         </div>
       </div>
@@ -99,8 +108,14 @@ export default {
       hideTheHotSearch() {
         this.$refs.searchRef.style.display = 'none'
       },
-      async submitSearch() {
-        this.$router.push('/searchResult/' + this.inputValue)
+      async submitSearch(searchWord = '') {
+        this.hideTheHotSearch()
+        console.log(searchWord)
+        if (searchWord === '') {
+          this.$router.push('/searchResult/' + this.inputValue)
+        } else {
+          this.$router.push('/searchResult/' + searchWord)
+        }
       }
     }
 }
