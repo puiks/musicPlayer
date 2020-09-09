@@ -54,6 +54,7 @@ const routes = [
   },
   { path: '/middlePage', component: MiddlePage, props: (route) => ({ query: route.query.finalPath }) },
   { path: '/albumDetail/:id', component: AlbumDetail },
+  { path: '/middlePage', component: MiddlePage, props: (route) => ({ finalPath: route.query.finalPath }) },
   {
     path: '/searchResult/:keyword',
     component: SearchResult,

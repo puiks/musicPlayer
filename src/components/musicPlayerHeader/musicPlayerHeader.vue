@@ -13,11 +13,11 @@
         @keypress.enter="submitSearch()"
         v-model="inputValue"
         @input="checkInput"
-        @focus="showTheHotSearch"
+        @click.stop="showTheHotSearch"
         type="text"
         class="search_input"
       />
-      <i @click="submitSearch()" class="search_btn">
+      <i @click.stop="submitSearch()" class="search_btn">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-search" />
         </svg>
@@ -30,12 +30,12 @@
               <div class="history_item"></div>
             </div>
           </div>
-          <!-- <div class="hotRank">
+          <div class="hotRank">
             <h4>热搜榜</h4>
             <div class="rank_content">
               <div
-                @click="submitSearch(item2.searchWord)"
                 :key="index"
+                @click.stop="submitSearch(item2.searchWord)"
                 v-for="(item2,index) in hotSearchList"
                 class="rank_item"
               >
@@ -49,14 +49,14 @@
                 </div>
               </div>
             </div>
-          </div>-->
+          </div>
         </div>
         <div v-else class="search_suggest">
           <div class="suggest_item" :key="index" v-for="(item,index) in suggestList.order">
             <h4>{{item}}</h4>
             <div
-              @click="submitSearch(item1.name)"
               :key="item1.id"
+              @click.stop="submitSearch(item1.name)"
               v-for="item1 in suggestList[item]"
               class="sub_item"
             >{{item1.name}}</div>
@@ -111,6 +111,9 @@ export default {
       async submitSearch(searchWord = '') {
         this.hideTheHotSearch()
         if (searchWord === '') {
+          if (!this.inputValue) {
+            return
+          }
           this.$router.push({path:'/middlePage',query:{finalPath:'/searchResult/' + this.inputValue}})
         } else {
           this.$router.push({path:'/middlePage',query:{finalPath:'/searchResult/' + searchWord}})
