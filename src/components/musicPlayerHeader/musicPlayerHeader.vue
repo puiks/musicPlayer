@@ -8,6 +8,22 @@
       </i>
       <p class="logo_desc">music player</p>
     </div>
+    <!-- <div class="pageTool">
+      <div @click="backRoute" class="backTool">
+        <i>
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-prev" />
+          </svg>
+        </i>
+      </div>
+      <div @click="forwardRoute" class="forwardTool">
+        <i>
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#icon-next" />
+          </svg>
+        </i>
+      </div>
+    </div>-->
     <div class="search_area">
       <input
         @keypress.enter="submitSearch()"
@@ -87,27 +103,32 @@ export default {
        }
     },
     methods:{
+      // 回到主页
       goHomePage() {
         this.$router.push('/discoveryMusic/recommend')
       },
+      // 显示搜索框
       async showTheHotSearch() {
         this.$refs.searchRef.style.display = 'block'
         const res = await this.$http.get('/search/hot/detail')
         this.hotSearchList = res.data.data
       },
-       checkInput() {
+      // 动态搜索建议
+      checkInput() {
         if (!this.inputValue) {
           return
         }
         clearTimeout(this.timer)
         this.timer = setTimeout(async () => {
           const res = await this.$http.get('/search/suggest?keywords=' + this.inputValue)
-          this.suggestList = res.data.result
+        this.suggestList = res.data.result
         }, 500)
       },
+      // 隐藏搜索框
       hideTheHotSearch() {
         this.$refs.searchRef.style.display = 'none'
       },
+      // 提交搜索
       async submitSearch(searchWord = '') {
         this.hideTheHotSearch()
         if (searchWord === '') {
@@ -153,9 +174,24 @@ c = #fff;
     }
   }
 
-  .search_area {
+  .pageTool {
+    display: flex;
+    align-items: center;
     position: absolute;
     left: 250px;
+
+    .backTool, .forwardTool {
+      color: #fff;
+      font-size: 18px;
+      padding: 2px 4px;
+      margin: 0 3px;
+      border: 1px solid #A82828;
+    }
+  }
+
+  .search_area {
+    position: absolute;
+    left: 350px;
 
     .search_input {
       width: 20rem;
