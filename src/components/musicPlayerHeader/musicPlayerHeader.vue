@@ -13,8 +13,7 @@
         @keypress.enter="submitSearch"
         v-model="inputValue"
         @input="checkInput"
-        @focus="showTheHotSearch"
-        @blur="hideTheHotSearch"
+        @click.stop="showTheHotSearch"
         type="text"
         class="search_input"
       />
@@ -34,7 +33,12 @@
           <div class="hotRank">
             <h4>热搜榜</h4>
             <div class="rank_content">
-              <div :key="index" v-for="(item2,index) in hotSearchList" class="rank_item">
+              <div
+                :key="index"
+                @click.stop="submitSearch(item2.searchWord)"
+                v-for="(item2,index) in hotSearchList"
+                class="rank_item"
+              >
                 <div class="itemIndex">{{index + 1}}</div>
                 <div class="item_desc">
                   <div class="item_title">
