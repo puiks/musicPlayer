@@ -37,12 +37,6 @@ export default {
                 navName:'歌单',
                 navAddress:`/searchResult/${this.keyword}/songList`
                 })
-        },
-        handleSwitchTarget(target) {
-            if (this.currentTarget === target) {
-                return
-            }
-            this.$router.push(`/searchResult/${this.keyword}/${target}`)
         }
     },
     components:{
