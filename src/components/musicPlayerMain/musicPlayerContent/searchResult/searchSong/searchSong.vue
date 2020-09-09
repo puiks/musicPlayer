@@ -84,6 +84,7 @@ export default {
       }
     },
     async playMusic(song,index) {
+      console.log(song)
         const { data:res} = await this.$http.get('/song/url?id=' + song.id)
         if (!res.data[0].url) {
           alert('没有播放该首歌的权限')
@@ -92,8 +93,8 @@ export default {
         const songs = {
           id: song.id,
           sname: song.name,
-          anames: song.ar,
-          duration: song.dt,
+          anames: song.artists,
+          duration: song.duration,
           immediate: true,
           // immediate:true,
           url: res.data[0].url
@@ -110,8 +111,8 @@ export default {
           id: res.data[0].id,
           url: res.data[0].url,
           sname: song.name,
-          anames: song.ar,
-          duration: song.dt
+          anames: song.artists,
+          duration: song.duration
         }
          this.$store.commit('addSong',songInfo)
       }
