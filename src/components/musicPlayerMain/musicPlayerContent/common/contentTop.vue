@@ -24,6 +24,13 @@ export default {
         currentIndex:0
       }
     },
+    created() {
+      this.nav.forEach((item,index) => {
+        if (item.navAddress === this.$route.path) {
+          this.currentIndex = index
+        }
+      })
+    },
       methods: {
         handleNavigate(i,address,e) {
           // 防止反复点击造成错误
@@ -31,7 +38,7 @@ export default {
          return
         }
         this.currentIndex = i
-        this.$router.push(address)
+        this.$router.push({path:'/middlePage',query:{finalPath:encodeURI(address)}})
       }
   }
 }

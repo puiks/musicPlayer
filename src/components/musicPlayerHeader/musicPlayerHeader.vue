@@ -17,7 +17,7 @@
         type="text"
         class="search_input"
       />
-      <i @click="submitSearch" class="search_btn">
+      <i @click="submitSearch()" class="search_btn">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-search" />
         </svg>
@@ -110,11 +110,10 @@ export default {
       },
       async submitSearch(searchWord = '') {
         this.hideTheHotSearch()
-        console.log(searchWord)
         if (searchWord === '') {
-          this.$router.push('/searchResult/' + this.inputValue)
+          this.$router.push({path:'/middlePage',query:{finalPath:'/searchResult/' + this.inputValue}})
         } else {
-          this.$router.push('/searchResult/' + searchWord)
+          this.$router.push({path:'/middlePage',query:{finalPath:'/searchResult/' + searchWord}})
         }
       }
     }
