@@ -8,22 +8,6 @@
       </i>
       <p class="logo_desc">music player</p>
     </div>
-    <!-- <div class="pageTool">
-      <div @click="backRoute" class="backTool">
-        <i>
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-prev" />
-          </svg>
-        </i>
-      </div>
-      <div @click="forwardRoute" class="forwardTool">
-        <i>
-          <svg class="icon" aria-hidden="true">
-            <use xlink:href="#icon-next" />
-          </svg>
-        </i>
-      </div>
-    </div>-->
     <div class="search_area">
       <input
         @keypress.enter="submitSearch()"
@@ -79,9 +63,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="login_area">
-      <a class="login_btn" href="javascript:;">未登陆</a>
     </div>
   </div>
 </template>
@@ -174,21 +155,20 @@ c = #fff;
     }
   }
 
-  .pageTool {
-    display: flex;
-    align-items: center;
-    position: absolute;
-    left: 250px;
+  // .pageTool {
+  // display: flex;
+  // align-items: center;
+  // position: absolute;
+  // left: 250px;
 
-    .backTool, .forwardTool {
-      color: #fff;
-      font-size: 18px;
-      padding: 2px 4px;
-      margin: 0 3px;
-      border: 1px solid #A82828;
-    }
-  }
-
+  // .backTool, .forwardTool {
+  // color: #fff;
+  // font-size: 18px;
+  // padding: 2px 4px;
+  // margin: 0 3px;
+  // border: 1px solid #A82828;
+  // }
+  // }
   .search_area {
     position: absolute;
     left: 350px;
@@ -327,19 +307,6 @@ c = #fff;
             }
           }
         }
-      }
-    }
-  }
-
-  .login_area {
-    position: absolute;
-    right: 10rem;
-
-    .login_btn {
-      color: #eee;
-
-      &:hover {
-        color: #fff;
       }
     }
   }

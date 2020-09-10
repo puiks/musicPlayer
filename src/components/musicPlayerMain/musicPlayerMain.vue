@@ -1,16 +1,13 @@
 <template>
   <div class="m_container">
-    <m-aside />
     <m-content />
   </div>
 </template>
 
 <script>
-import MAside from './musicPlayerAside/musicPlayerAside'
 import MContent from './musicPlayerContent/musicPlayerContent'
 export default {
   components: {
-    MAside,
     MContent
   }
 }

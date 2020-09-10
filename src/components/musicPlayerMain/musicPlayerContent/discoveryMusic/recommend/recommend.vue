@@ -10,16 +10,7 @@
           v-for="item in songLists"
           class="recommend_songList_item"
         >
-          <img :src="item.picUrl" alt />
-          <h4>{{item.name}}</h4>
-        </div>
-      </div>
-    </div>
-    <div class="exclusive_area">
-      <h3>独家放送</h3>
-      <div class="exclusive_content">
-        <div :key="item.id" v-for="item in exclusiveContent" class="exclusive_item">
-          <img :src="item.sPicUrl" alt />
+          <img v-lazy="item.picUrl" alt />
           <h4>{{item.name}}</h4>
         </div>
       </div>
@@ -29,7 +20,7 @@
       <div class="latestMusic_content">
         <div :key="item.id" v-for="(item,index) in newSong" class="latestMusic_item">
           <div class="indexOfSong">{{index+1 | format}}</div>
-          <img :src="item.picUrl" alt />
+          <img v-lazy="item.picUrl" alt />
           <div class="song_info">
             <div>{{item.name}}</div>
             <div class="song_artist">
@@ -39,30 +30,7 @@
         </div>
       </div>
     </div>
-    <!-- <div class="mv_area">
-      <h3>推荐MV</h3>
-      <div class="mv_content">
-        <div :key="item.id" v-for="item in mvLists" class="mv_item">
-          <img :src="item.picUrl" alt />
-          <div class="mv_info">
-            <div class="mv_name">{{item.name}}</div>
-            <div class="mv_artist">
-              <span :key="item1.id" v-for="item1 in item.artists">{{item1.name}}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="radio_area">
-      <h3>主播电台</h3>
-      <div class="radio_content">
-        <div :key="item.id" v-for="item in radioLists" class="radio_item">
-          <img :src="item.picUrl" alt />
-          <div class="radio_info">{{item.name}}</div>
-        </div>
-      </div>
-    </div>-->
-    <div class="footer">到底了</div>
+    <div class="footer"></div>
   </div>
 </template>
 
@@ -72,18 +40,12 @@ export default {
   data:function() {
     return {
       songLists:[],
-      exclusiveContent:[],
-      newSong:[],
-      mvLists:[],
-      radioLists:[]
+      newSong:[]
     }
   },
   created() {
     this.getSongLists()
-    this.getExclusiveContent()
     this.getNewSong()
-    // this.getMv()
-    // this.getRadio()
   },
   methods: {
    async getSongLists() {
@@ -91,25 +53,10 @@ export default {
       this.songLists = res.data.result
       // console.log(this.songLists)
     },
-   async getExclusiveContent() {
-      const res = await this.$http.get('/personalized/privatecontent')
-      this.exclusiveContent = res.data.result
-      // console.log(this.exclusiveContent)
-    },
     async getNewSong() {
       const res = await this.$http.get('/personalized/newsong')
       this.newSong = res.data.result
       // console.log(this.newSong)
-    },
-    async getMv() {
-      const res = await this.$http.get('/personalized/mv')
-      this.mvLists = res.data.result.splice(0,3)
-      // console.log(this.mvLists)
-    },
-    async getRadio() {
-      const res = await this.$http.get('/personalized/djprogram')
-      this.radioLists = res.data.result.splice(0,5)
-      console.log(this.radioLists)
     },
     goToSongList(id) {
       this.$router.push('/songListDetail/' + id)
@@ -155,44 +102,6 @@ export default {
       cursor: pointer;
 
       // margin: 50px 20px;
-      img {
-        width: 100%;
-        height: 100%;
-      }
-
-      h4 {
-        font-weight: 400;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-        overflow: hidden;
-      }
-    }
-  }
-}
-
-.exclusive_area {
-  width: 90%;
-  margin: 0 auto 30px;
-
-  h3 {
-    font-size: 22px;
-    font-weight: 400;
-    padding: 10px 0;
-    border-bottom: 1px solid #E1E1E2;
-  }
-
-  .exclusive_content {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    overflow: hidden;
-
-    .exclusive_item {
-      width: 32%;
-      height: (@width / 2);
-      margin: 30px 0;
-
       img {
         width: 100%;
         height: 100%;
@@ -272,93 +181,6 @@ export default {
 
     .latestMusic_item:hover {
       background-color: #eee;
-    }
-  }
-}
-
-.mv_area {
-  width: 90%;
-  margin: 0 auto 20px;
-
-  h3 {
-    font-size: 22px;
-    font-weight: 400;
-    padding: 10px 0;
-    border-bottom: 1px solid #E1E1E2;
-  }
-
-  .mv_content {
-    display: flex;
-    overflow: hidden;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    width: 100%;
-    margin: 20px 0;
-
-    .mv_item {
-      width: 32%;
-      box-sizing: border-box;
-      margin: 10 0px;
-
-      img {
-        width: 100%;
-      }
-
-      .mv_info {
-        .mv_name {
-        }
-
-        .mv_artist {
-          display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 1;
-          overflow: hidden;
-
-          span {
-            font-size: 15px;
-            font-weight: 400;
-            color: #444444;
-          }
-        }
-      }
-    }
-  }
-}
-
-.radio_area {
-  width: 90%;
-  margin: 0 auto 20px;
-
-  h3 {
-    font-size: 22px;
-    font-weight: 400;
-    padding: 10px 0;
-    border-bottom: 1px solid #E1E1E2;
-  }
-
-  .radio_content {
-    display: flex;
-    overflow: hidden;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    width: 100%;
-    margin: 20px 0;
-
-    .radio_item {
-      width: 19%;
-
-      img {
-        width: 100%;
-      }
-
-      .radio_info {
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2;
-        overflow: hidden;
-        margin-top: 5px;
-        font-size: 14px;
-      }
     }
   }
 }

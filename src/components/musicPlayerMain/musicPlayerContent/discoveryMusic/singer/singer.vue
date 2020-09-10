@@ -142,7 +142,7 @@ export default {
 
     .singer_item {
       width: 18%;
-      height: 200px;
+      height: 250px;
       margin: 15px 0;
 
       .img_container {

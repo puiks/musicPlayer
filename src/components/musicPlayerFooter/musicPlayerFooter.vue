@@ -1,5 +1,17 @@
 <template>
   <div class="mFooter">
+    <!-- 歌曲信息 -->
+    <div v-if="playList.length" class="currentSongInfo">
+      <div class="img_container">
+        <img :src="playList[0].imgUrl" alt />
+      </div>
+      <div class="detail">
+        <div class="song_title">{{playList[0].sname}}</div>
+        <div class="ar_name">
+          <span :key="item2.id" class="ar_item" v-for="item2 in playList[0].anames">{{item2.name}}</span>
+        </div>
+      </div>
+    </div>
     <div class="player_tool">
       <i @click="handleBack" class="tool_item">
         <svg class="icon" aria-hidden="true">
@@ -221,13 +233,60 @@ export default {
   bottom: 0;
   left: 0;
   width: 100vw;
-  height: 3.2rem;
+  height: 4rem;
   border-top: 1px solid #E1E1E2;
-  background-color: #F6F6F8;
+  background-color: #F5F5F7;
+
+  .currentSongInfo {
+    display: flex;
+    position: absolute;
+    left: 3em;
+    align-items: center;
+
+    .img_container {
+      width: 2.85rem;
+      height: 2.85rem;
+      margin: 0 10px;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    .detail {
+      display: flex;
+      flex-direction: column;
+      font-size: 18px;
+      margin: 0 10px;
+
+      .song_title {
+        width: 10em;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+      }
+
+      .ar_name {
+        width: 10em;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+        font-size: 17px;
+        color: #999;
+
+        .ar_item:nth-child(n+2)::before {
+          content: '/';
+          margin: 5px;
+        }
+      }
+    }
+  }
 
   .player_tool {
     position: absolute;
-    left: 0.625rem;
+    left: 25rem;
 
     .tool_item {
       display: inline-block;
@@ -261,7 +320,7 @@ export default {
     display: flex;
     position: absolute;
     align-items: center;
-    left: 15.625rem;
+    left: 40rem;
 
     .progress_container {
       cursor: pointer;

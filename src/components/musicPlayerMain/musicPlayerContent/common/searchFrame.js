@@ -6,6 +6,5 @@ window.onload = function () {
             return null
         }
         searchFrame.style.display = 'none'
-        // console.log(searchFrame.cssR)
     })
 }

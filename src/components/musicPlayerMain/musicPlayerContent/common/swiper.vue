@@ -123,8 +123,8 @@ standardWidth = (1265 / 900);
 
   .img_container {
     position: relative;
-    width: standardWidth * 540px * 1.5;
-    height: standardWidth * 215px;
+    width: standardWidth * 540px * 1.8;
+    height: standardWidth * 215px * 1.2;
     margin: 0 auto;
     cursor: pointer;
 
@@ -139,7 +139,7 @@ standardWidth = (1265 / 900);
     .img_item {
       position: absolute;
       left: 50%;
-      width: standardWidth * 540px;
+      width: standardWidth * 540px * 1.2;
       height: 100%;
       /* background-color: red; */
       transform: translateX(-50%);

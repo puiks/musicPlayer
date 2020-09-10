@@ -2,7 +2,7 @@
   <div class="songListPage">
     <!-- 标签选择器 -->
     <div class="selector">
-      <div @click="showCate" class="select_btn">
+      <div @click.stop="showCate" class="select_btn">
         全部歌单
         <i>
           <svg class="icon" aria-hidden="true">
@@ -18,7 +18,7 @@
             <div class="parent_desc">{{item}}</div>
             <div class="child_area">
               <div
-                @click="setCurrentCate(item1.name)"
+                @click.stop="setCurrentCate(item1.name)"
                 class="child_desc"
                 :key="item1.id"
                 v-for="item1 in subCate(key)"
@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import '../../common/selectFrame'
 export default {
   data:function() {
     return {
@@ -106,6 +107,7 @@ export default {
     },
     // 选择标签
     setCurrentCate(cate) {
+      this.showCate()
       this.currentCate = cate
       this.getSongLists()
     },
@@ -119,7 +121,7 @@ export default {
     },
     // 展示标签选择框
     showCate() {
-      if (this.$refs.selectFrameRef.style.display === 'none') {
+      if (this.$refs.selectFrameRef.style.display === 'none' || this.$refs.selectFrameRef.style.display === '') {
         this.$refs.selectFrameRef.style.display = 'block'
       } else {
         this.$refs.selectFrameRef.style.display = 'none'

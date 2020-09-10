@@ -43,9 +43,14 @@
       <!-- 专辑 -->
       <div class="album_component" v-show="navBars[2].isActive">
         <div class="album_area">
-          <div :key="item1.id" v-for="item1 in albumLists" class="album_item">
+          <div
+            @click="goToAlbumPage(item1.id)"
+            :key="item1.id"
+            v-for="item1 in albumLists"
+            class="album_item"
+          >
             <div class="album_img">
-              <img :src="item1.picUrl" alt />
+              <img v-lazy="item1.picUrl" alt />
             </div>
             <div class="album_name">{{item1.name}}</div>
             <div class="album_publishTime">{{item1.publishTime | formatDate}}</div>
@@ -161,6 +166,9 @@ export default {
           url: res.data.data[0].url
         }
       this.$store.commit('replaceThePlayList',songs)
+    },
+    goToAlbumPage(id) {
+      this.$router.push('/albumDetail/' + id)
     }
   },
   filters:{
@@ -272,6 +280,7 @@ export default {
         .album_item {
           width: 23%;
           margin: 20px 0;
+          cursor: pointer;
 
           .album_img {
             img {

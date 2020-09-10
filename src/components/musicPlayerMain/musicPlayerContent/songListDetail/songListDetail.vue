@@ -98,29 +98,20 @@ export default {
       async getSong() {
         const res = await this.$http.get('/song/detail?ids=' + this.tracksId)
         this.song_items = res.data.songs
-        // console.log(this.song_items)
       },
       async playMusic(song,index) {
-        // 把双击后的全部音乐id取得，获取url
-        // const ids = this.songListDetail.tracks.filter((item,i) => i >= index).map(items => items.id).join(',')
-        // console.log(ids)
-        // console.log(ids)
-        // console.log(ids.join(','))
         const { data:res} = await this.$http.get('/song/url?id=' + song.id)
         if (!res.data[0].url) {
           alert('没有播放该首歌的权限')
           return null
         }
-        // console.log(res.data)
-        // console.log(song)
-        // 再获取基本歌曲信息
-        // const newList = this.song_items.slice(index)
         const songs = {
           id: song.id,
           sname: song.name,
           anames: song.ar,
           duration: song.dt,
           immediate: true,
+          imgUrl:song.al.picUrl,
           // immediate:true,
           url: res.data[0].url
         }
