@@ -3,10 +3,10 @@
     <!-- 歌手信息区域 -->
     <div class="singerInfo">
       <div class="singer_desc">
-        <div class="singer_name">{{name}}</div>
+        <div class="singer_name">{{singerInfo.name}}</div>
       </div>
       <div class="singerImg">
-        <img :src="imgUrl" alt />
+        <img :src="singerInfo.imgUrl" alt />
       </div>
     </div>
     <!-- 导航区域 选择是要热门歌曲还是专辑信息 -->
@@ -78,28 +78,37 @@
 
 <script>
 export default {
-  props:['id','name','imgUrl','albumSize'],
   data:function() {
     return {
-      singerId: -1,
+      id:0,
       topSongs:[],
       navBars:[
         {id:101356,title:'热门歌曲',isActive:true},
         {id:101357,title:'歌手详情',isActive:false},
         {id:101358,title:'专辑',isActive:false}
       ],
+      singerInfo:{},
       albumLists:[],
       description:[],
-      pageNum: Math.ceil(this.albumSize / 12),
+      pageNum: 0,
       currentPage: 1
     }
   },
   created() {
-  //  this.getSingerInfo()
+   this.id = this.$route.params.id
+   this.getSingerInfo()
    this.getHotSong()
   },
   methods:{
     // 获取热门歌曲
+    async getSingerInfo() {
+      const res = await this.$http.get('/artists?id=' + this.id)
+      this.singerInfo = {
+        name:res.data.artist.name,
+        imgUrl:res.data.artist.picUrl,
+        albumSize:res.data.artist.albumSize
+      }
+    },
     async getHotSong() {
       const res = await this.$http.get('/artist/top/song?id=' + this.id)
       this.topSongs = res.data.songs
@@ -117,6 +126,7 @@ export default {
       if (id === 101358) {
         // 如果已经取过了就不用再重复
         if (!this.albumLists.length) {
+          this.pageNum = Math.ceil(this.singerInfo.albumSize / 12)
           this.getAlbumLists()
         }
       } else if (id === 101357) {
@@ -157,12 +167,17 @@ export default {
     },
     async playTheMusic(songInfo) {
       const res = await this.$http.get('/song/url?id=' + songInfo.id)
+      if (!res.data.data[0].url) {
+        this.$message.error('抱歉，该首歌仅限会员才可播放。')
+        return
+      }
       const songs = {
           id: songInfo.id,
           sname: songInfo.name,
           anames: songInfo.ar,
           duration: songInfo.dt,
           immediate: true,
+          imgUrl:songInfo.al.picUrl,
           url: res.data.data[0].url
         }
       this.$store.commit('replaceThePlayList',songs)

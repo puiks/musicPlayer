@@ -329,6 +329,7 @@ export default {
       height: 15px;
       border-radius: (@height / 2);
       background-color: #C2C2C4;
+      overflow: hidden;
 
       .progress_now {
         width: 0;
@@ -350,6 +351,7 @@ export default {
         height: 15px;
         border-radius: (@height / 2);
         background-color: #E6E6E8;
+        overflow: hidden;
 
         .current_vol {
           height: 15px;

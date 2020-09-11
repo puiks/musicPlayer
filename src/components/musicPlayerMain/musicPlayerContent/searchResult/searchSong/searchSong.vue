@@ -25,9 +25,13 @@
         </div>
         <div class="song_title">{{item.name}}</div>
         <div class="singer">
-          <span :key="item2.id + index" v-for="(item2,index) in item.artists">{{item2.name}}</span>
+          <span
+            @click="goToSingerPage(item2.id)"
+            :key="item2.id + index"
+            v-for="(item2,index) in item.artists"
+          >{{item2.name}}</span>
         </div>
-        <div class="album">{{item.album.name}}</div>
+        <div @click="goToAlbumPage(item.album.id)" class="album">{{item.album.name}}</div>
         <div class="time">{{item.duration | getTime}}</div>
       </div>
     </div>
@@ -83,11 +87,11 @@ export default {
         return 'page_item'
       }
     },
-    async playMusic(song,index) {
-      console.log(song)
+    async playMusic(song) {
+        const {data:res1} = await this.$http.get('/album?id=' + song.album.id)
         const { data:res} = await this.$http.get('/song/url?id=' + song.id)
         if (!res.data[0].url) {
-          alert('没有播放该首歌的权限')
+         this.$message.error('抱歉，该首歌仅限会员才可播放。')
           return null
         }
         const songs = {
@@ -96,6 +100,7 @@ export default {
           anames: song.artists,
           duration: song.duration,
           immediate: true,
+          imgUrl:res1.album.picUrl,
           // immediate:true,
           url: res.data[0].url
         }
@@ -104,17 +109,24 @@ export default {
      async addIntoList(song) {
         const { data:res} = await this.$http.get('/song/url?id=' + song.id)
         if (!res.data[0].url) {
-          alert('没有播放该首歌的权限')
+         this.$message.error('抱歉，该首歌仅限会员才可播放。')
           return null
         }
         const songInfo = {
           id: res.data[0].id,
           url: res.data[0].url,
           sname: song.name,
+          imgUrl:song.al.picUrl,
           anames: song.artists,
           duration: song.duration
         }
          this.$store.commit('addSong',songInfo)
+      },
+      goToSingerPage(id) {
+        this.$router.push('/singerDetail/' + id)
+      },
+      goToAlbumPage(id) {
+        this.$router.push('/albumDetail/' + id)
       }
   },
   filters:{
@@ -217,9 +229,14 @@ export default {
       overflow: hidden;
       flex: 3;
 
+      span {
+        cursor: pointer;
+        margin: 0 5px;
+      }
+
       span:nth-child(n+2)::before {
         content: '/';
-        margin: 0 7px;
+        margin: 0 5px;
       }
     }
 
@@ -229,6 +246,7 @@ export default {
       -webkit-box-orient: vertical;
       flex: 3;
       overflow: hidden;
+      cursor: pointer;
     }
 
     .time {

@@ -56,7 +56,7 @@
             <h4>{{item}}</h4>
             <div
               :key="item1.id"
-              @click.stop="submitSearch(item1.name)"
+              @click.stop="submitSuggest(item1.id,item)"
               v-for="item1 in suggestList[item]"
               class="sub_item"
             >{{item1.name}}</div>
@@ -110,7 +110,7 @@ export default {
         this.$refs.searchRef.style.display = 'none'
       },
       // 提交搜索
-      async submitSearch(searchWord = '') {
+      submitSearch(searchWord = '') {
         this.hideTheHotSearch()
         if (searchWord === '') {
           if (!this.inputValue) {
@@ -120,6 +120,46 @@ export default {
         } else {
           this.$router.push({path:'/middlePage',query:{finalPath:'/searchResult/' + searchWord}})
         }
+      },
+      submitSuggest(id,type) {
+        this.hideTheHotSearch()
+        // 看是哪种搜索
+        switch (type) {
+          case 'artists':
+            this.$router.push(
+               {path:'/middlePage',query:{finalPath:'/singerDetail/' + id}}
+              )
+            break
+          case 'albums':
+             this.$router.push({path:'/middlePage',query:{finalPath:'/albumDetail/' + id}})
+             break
+          case 'playlists':
+            this.$router.push(
+              {path:'/middlePage',query:{finalPath:'/songListDetail/' + id}}
+            )
+            break
+          default:
+            this.playMusic(id)
+        }
+      },
+       async playMusic(id) {
+         const {data:res1} = await this.$http.get('/song/detail?ids=' + id)
+        const { data:res} = await this.$http.get('/song/url?id=' + id)
+        if (!res.data[0].url) {
+          this.$message.error('抱歉，该首歌仅限会员才可播放。')
+          return null
+        }
+        const songs = {
+          id: id,
+          sname: res1.songs[0].name,
+          anames: res1.songs[0].ar,
+          duration: res1.songs[0].dt,
+          immediate: true,
+          imgUrl:res1.songs[0].al.picUrl,
+          // immediate:true,
+          url: res.data[0].url
+        }
+        this.$store.commit('replaceThePlayList',songs)
       }
     }
 }

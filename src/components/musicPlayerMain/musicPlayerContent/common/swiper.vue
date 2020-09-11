@@ -107,7 +107,7 @@ export default {
         },
         clickImg(song) {
           if (!song.url) {
-            alert('暂时没有该歌曲权限')
+            this.$message.error('抱歉,暂时没有该歌曲权限')
             return null
           }
         }

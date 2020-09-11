@@ -71,7 +71,6 @@
 </template>
 
 <script>
-import '../../common/selectFrame'
 export default {
   data:function() {
     return {
@@ -84,6 +83,7 @@ export default {
     }
   },
   created() {
+    import('../../common/selectFrame').then()
     this.getCate()
     this.getHotList()
     this.getSongLists()

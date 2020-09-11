@@ -74,7 +74,7 @@ export default {
     async playMusic(song,index) {
         const { data:res} = await this.$http.get('/song/url?id=' + song.id)
         if (!res.data[0].url) {
-          alert('没有播放该首歌的权限')
+          this.$message.error('抱歉，该首歌仅限会员才可播放。')
           return null
         }
         const songs = {
@@ -83,7 +83,7 @@ export default {
           anames: song.ar,
           duration: song.dt,
           immediate: true,
-          // immediate:true,
+          imgUrl:song.al.picUrl,
           url: res.data[0].url
         }
         this.$store.commit('replaceThePlayList',songs)
@@ -91,7 +91,7 @@ export default {
      async addIntoList(song) {
         const { data:res} = await this.$http.get('/song/url?id=' + song.id)
         if (!res.data[0].url) {
-          alert('没有播放该首歌的权限')
+          this.$message.error('抱歉，该首歌仅限会员才可播放。')
           return null
         }
         const songInfo = {
@@ -99,6 +99,7 @@ export default {
           url: res.data[0].url,
           sname: song.name,
           anames: song.ar,
+          imgUrl:song.al.picUrl,
           duration: song.dt
         }
          this.$store.commit('addSong',songInfo)

@@ -43,18 +43,11 @@ const routes = [
   },
   { path: '/songListDetail/:id', component: SongListDetail },
   {
-    path: '/singerDetail',
-    component: SingerDetail,
-    props: (route) => ({
-      id: route.query.id,
-      name: route.query.name,
-      imgUrl: route.query.imgUrl,
-      albumSize: route.query.albumSize
-    })
+    path: '/singerDetail/:id',
+    component: SingerDetail
   },
   { path: '/middlePage', component: MiddlePage, props: (route) => ({ query: route.query.finalPath }) },
   { path: '/albumDetail/:id', component: AlbumDetail },
-  { path: '/middlePage', component: MiddlePage, props: (route) => ({ finalPath: route.query.finalPath }) },
   {
     path: '/searchResult/:keyword',
     component: SearchResult,

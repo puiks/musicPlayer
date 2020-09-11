@@ -97,7 +97,7 @@ export default {
       this.getSingerLists()
     },
     goToSingerPage(singer) {
-      this.$router.push(`/singerDetail?id=${singer.id}&name=${singer.name}&imgUrl=${singer.picUrl}&albumSize=${singer.albumSize}`)
+      this.$router.push('/singerDetail/' + singer.id)
     }
   }
 }
