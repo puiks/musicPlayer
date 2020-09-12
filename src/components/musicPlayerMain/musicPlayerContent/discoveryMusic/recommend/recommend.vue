@@ -18,13 +18,22 @@
     <div class="latestMusic_area">
       <h3>最新音乐</h3>
       <div class="latestMusic_content">
-        <div :key="item.id" v-for="(item,index) in newSong" class="latestMusic_item">
+        <div
+          @dblclick="playMusic(item)"
+          :key="item.id"
+          v-for="(item,index) in newSong"
+          class="latestMusic_item"
+        >
           <div class="indexOfSong">{{index+1 | format}}</div>
           <img v-lazy="item.picUrl" alt />
           <div class="song_info">
             <div>{{item.name}}</div>
             <div class="song_artist">
-              <span :key="item1.id" v-for="item1 in item.song.artists">{{item1.name}}</span>
+              <span
+                @click="goToSingerPage(item1.id)"
+                :key="item1.id"
+                v-for="item1 in item.song.artists"
+              >{{item1.name}}</span>
             </div>
           </div>
         </div>
@@ -58,8 +67,28 @@ export default {
       this.newSong = res.data.result
       // console.log(this.newSong)
     },
+    async playMusic(song) {
+        const { data:res} = await this.$http.get('/song/url?id=' + song.id)
+        if (!res.data[0].url) {
+          this.$message.error('抱歉，该首歌仅限会员才可播放。')
+          return null
+        }
+        const songs = {
+          id: song.id,
+          sname: song.name,
+          anames: song.song.artists,
+          duration: song.song.duration,
+          immediate: true,
+          imgUrl:song.picUrl,
+          url: res.data[0].url
+        }
+        this.$store.commit('replaceThePlayList',songs)
+      },
     goToSongList(id) {
       this.$router.push('/songListDetail/' + id)
+    },
+    goToSingerPage(id) {
+      this.$router.push('/singerDetail/' + id)
     }
   },
   components:{
@@ -144,6 +173,7 @@ export default {
 
       img {
         width: 8%;
+        margin-right: 8px;
       }
 
       .indexOfSong {
@@ -153,13 +183,12 @@ export default {
       }
 
       .song_info {
-        // display: flex;
-        // flex-direction: columns;
         .song_artist {
           display: -webkit-box;
           -webkit-box-orient: vertical;
           -webkit-line-clamp: 1;
           overflow: hidden;
+          margin-top: 10px;
 
           span {
             font-weight: 300;

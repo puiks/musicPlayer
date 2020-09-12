@@ -1,5 +1,5 @@
 <template>
-  <div class="singerPage">
+  <div ref="singerPageRef" class="singerPage">
     <div class="tag_area">
       <div class="language">
         语种:
@@ -56,18 +56,27 @@ export default {
       ],
       singerLists:[],
       currentLang:-1,
-      currentVariety:-1
+      currentVariety:-1,
+      currentPage:0
     }
   },
   created() {
     this.getSingerLists()
   },
+  mounted() {
+    const that = this
+    this.$parent.$parent.$el.addEventListener('scroll',that.handleScroll)
+  },
+  destroyed() {
+    const that = this
+    this.$parent.$parent.$el.removeEventListener('scroll',that.handleScroll)
+  },
   methods:{
     // 获取歌手数据
     async getSingerLists() {
         const res = await this.$http.get(
-      `/artist/list?type=${this.currentVariety}&area=${this.currentLang}&initial=-1`)
-        this.singerLists = res.data.artists
+      `/artist/list?type=${this.currentVariety}&area=${this.currentLang}&initial=-1&offset=${this.currentPage * 30}`)
+        this.singerLists.push(...res.data.artists)
         // console.log(this.singerLists)
     },
     // 选择结果后更改样式
@@ -98,6 +107,19 @@ export default {
     },
     goToSingerPage(singer) {
       this.$router.push('/singerDetail/' + singer.id)
+    },
+    handleScroll() {
+      const that = this.$parent.$parent.$el
+      const scrollTop = that.scrollTop
+      // 变量windowHeight是可视区的高度
+      const windowHeight = that.clientHeight
+      // // 变量scrollHeight是滚动条的总高度
+      const scrollHeight = that.scrollHeight
+        // 滚动条到底部的条件
+        if (Math.ceil(scrollTop + windowHeight) === scrollHeight) {
+          this.currentPage++
+          this.getSingerLists()
+        }
     }
   }
 }

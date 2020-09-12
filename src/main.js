@@ -22,11 +22,13 @@ Vue.use(LazyLoad, {
 
 Vue.config.productionTip = false
 axios.defaults.baseURL = 'http://localhost:3000'
+axios.defaults.withCredentials = true
 Vue.prototype.$http = axios
 
 NProgress.inc(0.2)
 NProgress.configure({ easing: 'ease', speed: 500, showSpinner: false })
 
+Vue.prototype.$progress = NProgress
 router.beforeEach((to, from, next) => {
   NProgress.start()
   next()

@@ -55,9 +55,13 @@
           </div>
           <div class="song_title">{{item2.name}}</div>
           <div class="singer">
-            <span :key="item3.id" v-for="item3 in item2.ar">{{item3.name}}</span>
+            <span
+              @click="goToSingerPage(item3.id)"
+              :key="item3.id"
+              v-for="item3 in item2.ar"
+            >{{item3.name}}</span>
           </div>
-          <div class="album">{{item2.al.name}}</div>
+          <div @click="goToAlbumPage(item2.al.id)" class="album">{{item2.al.name}}</div>
           <div class="time">{{item2.dt | getTime}}</div>
         </div>
       </div>
@@ -140,6 +144,12 @@ export default {
           duration: song.dt
         }
          this.$store.commit('addSong',songInfo)
+      },
+      goToSingerPage(id) {
+        this.$router.push('/singerDetail/' + id)
+      },
+      goToAlbumPage(id) {
+        this.$router.push('/albumDetail/' + id)
       }
     },
     filters:{

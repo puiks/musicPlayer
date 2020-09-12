@@ -86,7 +86,7 @@ export default {
     methods:{
       // 回到主页
       goHomePage() {
-        this.$router.push('/discoveryMusic/recommend')
+        this.$router.push({path:'/middlePage',query:{finalPath:'/discoveryMusic/recommend'}})
       },
       // 显示搜索框
       async showTheHotSearch() {

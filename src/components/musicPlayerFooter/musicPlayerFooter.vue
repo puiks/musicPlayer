@@ -3,12 +3,16 @@
     <!-- 歌曲信息 -->
     <div v-if="playList.length" class="currentSongInfo">
       <div class="img_container">
-        <img :src="playList[0].imgUrl" alt />
+        <img :src="playList[setIndex].imgUrl" alt />
       </div>
       <div class="detail">
-        <div class="song_title">{{playList[0].sname}}</div>
+        <div class="song_title">{{playList[setIndex].sname}}</div>
         <div class="ar_name">
-          <span :key="item2.id" class="ar_item" v-for="item2 in playList[0].anames">{{item2.name}}</span>
+          <span
+            :key="item2.id"
+            class="ar_item"
+            v-for="item2 in playList[setIndex].anames"
+          >{{item2.name}}</span>
         </div>
       </div>
     </div>

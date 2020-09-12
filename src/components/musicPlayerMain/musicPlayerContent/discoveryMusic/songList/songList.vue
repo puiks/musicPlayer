@@ -101,9 +101,11 @@ export default {
     },
     // 获取歌单列表
     async getSongLists(i = 0) {
+      this.$progress.start()
       const res = await this.$http.get(`/top/playlist?limit=40&offset=${i * 40}&cat=${this.currentCate}`)
       this.songLists = res.data.playlists
       this.currentPage = i
+      this.$progress.done()
     },
     // 选择标签
     setCurrentCate(cate) {
