@@ -88,6 +88,7 @@ export default {
     this.getHotList()
     this.getSongLists()
   },
+  inject:['scrollToTop'],
   methods:{
     // 获取分类
    async getCate() {
@@ -106,6 +107,8 @@ export default {
       this.songLists = res.data.playlists
       this.currentPage = i
       this.$progress.done()
+      // 让页面滚动回顶部
+      this.scrollToTop()
     },
     // 选择标签
     setCurrentCate(cate) {

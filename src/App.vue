@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div ref="main" id="app">
     <m-header />
     <mainContainer />
     <m-footer />
@@ -15,6 +15,11 @@
       MHeader,
       mainContainer,
       MFooter
+    },
+    watch:{
+      $route() {
+        this.$refs.main.scrollTo(0,0)
+      }
     }
   }
 </script>

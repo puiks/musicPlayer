@@ -8,6 +8,14 @@
 export default {
   mounted() {
     // console.log(this.$el)
+  },
+  provide:function() {
+    const self = this
+    return {
+      scrollToTop() {
+        self.$refs.contentPageRef.scrollTo(0,0)
+      }
+    }
   }
 }
 </script>
